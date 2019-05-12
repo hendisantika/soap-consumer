@@ -4,6 +4,7 @@ plugins {
 }
 
 apply plugin: 'io.spring.dependency-management'
+apply plugin: 'no.nils.wsdl2java'
 
 group = 'com.hendisantika'
 version = '0.0.1-SNAPSHOT'
@@ -17,3 +18,17 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
+
+wsdl2javaExt {
+    cxfVersion = "3.1.10"
+}
+
+wsdl2java{
+    generatedWsdlDir = file("${projectDir}/src/main/service")
+    wsdlDir=file("${projectDir}/src/main/resources/wsdl/")
+    wsdlsToGenerate = [
+            [file("${projectDir}/src/main/resources/wsdl/users.wsdl")]
+    ]
+}
+
+compileJava.dependsOn wsdl2java
